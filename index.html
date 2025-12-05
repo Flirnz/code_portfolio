@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Portfolio System | Multi-Device Sync</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1e40af;
+            --dark-color: #1f2937;
+            --light-color: #f9fafb;
+            --gray-color: #6b7280;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .category-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background-color: #f8fafc;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid transparent;
+        }
+        
+        .category-item:hover {
+            background-color: #eff6ff;
+            transform: translateX(5px);
+        }
+        
+        .category-item.active {
+            background-color: #eff6ff;
+            border-left-color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .language-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        
+        .language-tag {
+            background-color: #e0f2fe;
+            color: var(--primary-color);
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        /* Main Panel */
+        .main-panel {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .panel-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        
+        .panel-subtitle {
+            color: var(--gray-color);
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        
+        /* Folder Structure */
+        .folder-structure {
+            background-color: #f8fafc;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        
+        .folder-item {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        .folder-item::before {
+            content: "📁";
+            position: absolute;
+            left: 0;
+        }
+        
+        .file-item {
+            margin-bottom: 5px;
+            padding-left: 40px;
+            color: var(--gray-color);
+        }
+        
+        .file-item::before {
+            content: "📄";
+            position: absolute;
+            left: 20px;
+        }
+        
+        /* Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .info-card {
+            background-color: #f8fafc;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .info-card.warning {
+            border-top-color: var(--warning-color);
+        }
+        
+        .info-card.success {
+            border-top-color: var(--success-color);
+        }
+        
+        .info-card-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Setup Steps */
+        .setup-steps {
+            margin-top: 30px;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            margin-bottom: 8px;
+            color: var(--dark-color);
+        }
+        
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+        
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div>
+                <div class="logo">
+                    <i class="fas fa-laptop-code"></i>
+                    <span>Code Portfolio System</span>
+                </div>
+                <div class="tagline">Organize, Sync, and Access Your Code Across All Devices</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 1.2rem; font-weight: 600;">Multi-Language Support</div>
+                <div>Java, JavaScript, Python, PHP, C++, HTML, CSS</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h2 class="section-title">
+                    <i class="fas fa-folder-tree"></i>
+                    Categories
+                </h2>
+                <ul class="category-list">
+                    <li class="category-item active" data-category="structure">
+                        <i class="fas fa-sitemap"></i>
+                        Folder Structure
+                    </li>
+                    <li class="category-item" data-category="github">
+                        <i class="fab fa-github"></i>
+                        GitHub Setup
+                    </li>
+                    <li class="category-item" data-category="xampp">
+                        <i class="fas fa-server"></i>
+                        PHP/XAMPP Solution
+                    </li>
+                    <li class="category-item" data-category="sync">
+                        <i class="fas fa-sync-alt"></i>
+                        Sync Strategy
+                    </li>
+                    <li class="category-item" data-category="workflow">
+                        <i class="fas fa-tasks"></i>
+                        Daily Workflow
+                    </li>
+                </ul>
+                
+                <h2 class="section-title">
+                    <i class="fas fa-code"></i>
+                    Languages
+                </h2>
+                <div class="language-tags">
+                    <span class="language-tag">Java</span>
+                    <span class="language-tag">JavaScript</span>
+                    <span class="language-tag">Python</span>
+                    <span class="language-tag">PHP</span>
+                    <span class="language-tag">C++</span>
+                    <span class="language-tag">HTML</span>
+                    <span class="language-tag">CSS</span>
+                </div>
+            </div>
+
+            <!-- Main Panel -->
+            <div class="main-panel">
+                <!-- Default Content: Folder Structure -->
+                <div id="structure-content" class="panel-content">
+                    <h2 class="panel-title">Complete Code Portfolio Structure</h2>
+                    <p class="panel-subtitle">Organize all your projects by category and language for maximum clarity</p>
+                    
+                    <div class="folder-structure">
+                        <div class="folder-item">code-portfolio/
+                            <div class="folder-item">university/
+                                <div class="folder-item">semester-1/
+                                    <div class="folder-item">java/
+                                        <div class="file-item">DataStructures.java</div>
+                                        <div class="file-item">Algorithms.java</div>
+                                    </div>
+                                    <div class="folder-item">c++/
+                                        <div class="file-item">OOP-Project.cpp</div>
+                                    </div>
+                                </div>
+                                <div class="folder-item">semester-2/
+                                    <div class="folder-item">python/
+                                        <div class="file-item">ML-Assignment.py</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="folder-item">roadmap-sh/
+                                <div class="folder-item">frontend-projects/
+                                    <div class="file-item">todo-app/</div>
+                                    <div class="file-item">weather-app/</div>
+                                </div>
+                                <div class="folder-item">backend-projects/
+                                    <div class="file-item">node-api/</div>
+                                    <div class="file-item">python-crud/</div>
+                                </div>
+                                <div class="folder-item">fullstack-projects/
+                                    <div class="file-item">ecommerce-app/</div>
+                                </div>
+                            </div>
+                            <div class="folder-item">learning/
+                                <div class="folder-item">javascript/
+                                    <div class="file-item">react-projects/</div>
+                                    <div class="file-item">nodejs-learning/</div>
+                                </div>
+                                <div class="folder-item">python/
+                                    <div class="file-item">automation-scripts/</div>
+                                    <div class="file-item">data-analysis/</div>
+                                </div>
+                                <div class="folder-item">php/
+                                    <div class="file-item">laravel-learning/</div>
+                                    <div class="file-item">wordpress-themes/</div>
+                                </div>
+                            </div>
+                            <div class="folder-item">php-projects/
+                                <div class="file-item">SYMLINKS-TO-HTODCS/</div>
+                                <div class="file-item">README-PHP-SETUP.md</div>
+                            </div>
+                            <div class="folder-item">config/
+                                <div class="file-item">sync-scripts/</div>
+                                <div class="file-item">backup-config/</div>
+                            </div>
+                            <div class="file-item">README.md</div>
+                            <div class="file-item">.gitignore</div>
+                            <div class="file-item">sync-all.sh / sync-all.bat</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <h3 class="info-card-title">
+                                <i class="fas fa-university"></i>
+                                University Code
+                            </h3>
+                            <p>Organized by semester and course. Each course has its own folder with assignments and projects.</p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h3 class="info-card-title">
+                                <i class="fas fa-road"></i>
+                                Roadmap.sh Projects
+                            </h3>
+                            <p>Follow the roadmap.sh learning path. Separate folders for frontend, backend, and fullstack projects.</p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h3 class="info-card-title">
+                                <i class="fas fa-graduation-cap"></i>
+                                Learning & Experiments
+                            </h3>
+                            <p>For personal learning, tutorials, and experimenting with new technologies.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- GitHub Setup Content -->
+                <div id="github-content" class="panel-content" style="display: none;">
+                    <h2 class="panel-title">GitHub Setup for All Projects</h2>
+                    <p class="panel-subtitle">One repository to rule them all, with proper .gitignore configuration</p>
+                    
+                    <div class="setup-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Create Main Repository</h4>
+                                <p>Create a new GitHub repository named "code-portfolio" or "my-projects".</p>
+                                <div class="code-block"># Initialize git in your main folder
+git init
+git add .
+git commit -m "Initial commit: Organized code portfolio"
+git branch -M main
+git remote add origin https://github.com/yourusername/code-portfolio.git
+git push -u origin main</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Configure .gitignore Properly</h4>
+                                <p>Create a comprehensive .gitignore file to avoid uploading unnecessary files:</p>
+                                <div class="code-block"># OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Language-specific ignores
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# PHP
+vendor/
+composer.lock
+.env
+
+# XAMPP specific (don't sync the entire xampp folder)
+xampp/
+htdocs/ (except symlinks)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Sync Between Devices</h4>
+                                <p>On your second device (laptop), clone the repository:</p>
+                                <div class="code-block">git clone https://github.com/yourusername/code-portfolio.git
+cd code-portfolio</div>
+                                <p>Always pull before starting work and push when done:</p>
+                                <div class="code-block"># Before working
+git pull origin main
+
+# After making changes
+git add .
+git commit -m "Updated university Java assignments"
+git push origin main</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PHP/XAMPP Solution -->
+                <div id="xampp-content" class="panel-content" style="display: none;">
+                    <h2 class="panel-title">PHP/XAMPP Solution</h2>
+                    <p class="panel-subtitle">Handle PHP projects that need to be in htdocs while keeping them synced</p>
+                    
+                    <div class="info-card warning">
+                        <h3 class="info-card-title">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            The XAMPP Problem
+                        </h3>
+                        <p>PHP projects must be inside the htdocs folder to run with XAMPP, but you want to keep all code in one synchronized folder.</p>
+                    </div>
+                    
+                    <div class="setup-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Solution: Symbolic Links (Symlinks)</h4>
+                                <p>Create symlinks from your code-portfolio folder to htdocs:</p>
+                                
+                                <p><strong>On Windows:</strong></p>
+                                <div class="code-block"># Open Command Prompt as Administrator
+mklink /D "C:\xampp\htdocs\my-php-project" "C:\Users\YourName\code-portfolio\php-projects\my-php-project"</div>
+                                
+                                <p><strong>On Mac/Linux:</strong></p>
+                                <div class="code-block">ln -s ~/code-portfolio/php-projects/my-php-project /Applications/XAMPP/htdocs/my-php-project</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Alternative: Virtual Hosts</h4>
+                                <p>Configure XAMPP to serve PHP projects from your code-portfolio folder:</p>
+                                <div class="code-block"># Edit C:\xampp\apache\conf\extra\httpd-vhosts.conf
+&lt;VirtualHost *:80&gt;
+    DocumentRoot "C:\Users\YourName\code-portfolio\php-projects"
+    ServerName local.code-portfolio
+    &lt;Directory "C:\Users\YourName\code-portfolio\php-projects"&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+
+# Add to C:\Windows\System32\drivers\etc\hosts
+127.0.0.1 local.code-portfolio</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Organize PHP Projects in Your Portfolio</h4>
+                                <p>Create this structure in your code-portfolio:</p>
+                                <div class="folder-structure">
+                                    <div class="folder-item">code-portfolio/
+                                        <div class="folder-item">php-projects/
+                                            <div class="folder-item">blog-system/
+                                                <div class="file-item">index.php</div>
+                                                <div class="file-item">config.php</div>
+                                            </div>
+                                            <div class="folder-item">ecommerce/
+                                                <div class="file-item">SYMLINK-TO-HTODCS.md</div>
+                                            </div>
+                                            <div class="file-item">README-PHP-SETUP.md</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sync Strategy -->
+                <div id="sync-content" class="panel-content" style="display: none;">
+                    <h2 class="panel-title">Multi-Device Sync Strategy</h2>
+                    <p class="panel-subtitle">Keep all your code synchronized between PC and laptop</p>
+                    
+                    <div class="info-cards">
+                        <div class="info-card success">
+                            <h3 class="info-card-title">
+                                <i class="fas fa-sync-alt"></i>
+                                Git Sync Workflow
+                            </h3>
+                            <p>Use Git as your primary sync tool. All code lives in one repository that you push/pull from both devices.</p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h3 class="info-card-title">
+                                <i class="fas fa-cloud"></i>
+                                Cloud Backup
+                            </h3>
+                            <p>Use GitHub as your cloud backup. Private repositories are free for unlimited projects.</p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h3 class="info-card-title">
+                                <i class="fas fa-script"></i>
+                                Automation Scripts
+                            </h3>
+                            <p>Create sync scripts to make the process one-click easy.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Create Sync Scripts</h4>
+                                <p>Create sync-all.sh (Mac/Linux) or sync-all.bat (Windows) in your root folder:</p>
+                                
+                                <p><strong>For Windows (sync-all.bat):</strong></p>
+                                <div class="code-block">@echo off
+echo Starting sync process...
+cd /d "C:\Users\YourName\code-portfolio"
+
+echo Pulling latest changes from GitHub...
+git pull origin main
+
+echo Adding all changes...
+git add .
+
+echo Committing changes...
+set /p commit_msg="Enter commit message: "
+git commit -m "%commit_msg%"
+
+echo Pushing to GitHub...
+git push origin main
+
+echo Sync complete!
+pause</div>
+                                
+                                <p><strong>For Mac/Linux (sync-all.sh):</strong></p>
+                                <div class="code-block">#!/bin/bash
+echo "Starting sync process..."
+cd ~/code-portfolio
+
+echo "Pulling latest changes from GitHub..."
+git pull origin main
+
+echo "Adding all changes..."
+git add .
+
+echo "Committing changes..."
+read -p "Enter commit message: " commit_msg
+git commit -m "$commit_msg"
+
+echo "Pushing to GitHub..."
+git push origin main
+
+echo "Sync complete!"</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Daily Workflow</h4>
+                                <p>Follow this routine when switching between devices:</p>
+                                <ol style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Before starting work: <code>git pull origin main</code></li>
+                                    <li>Work on your projects</li>
+                                    <li>When done: <code>git add .</code></li>
+                                    <li><code>git commit -m "Description of changes"</code></li>
+                                    <li><code>git push origin main</code></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Daily Workflow -->
+                <div id="workflow-content" class="panel-content" style="display: none;">
+                    <h2 class="panel-title">Daily Workflow</h2>
+                    <p class="panel-subtitle">How to efficiently work across multiple devices and project types</p>
+                    
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <h3 class="info-card-title">
+                                <i class="fas fa-laptop-house"></i>
+                                Working on PC
+                            </h3>
+                            <p>1. Open Git Bash/Terminal in code-portfolio folder<br>
+                               2. Run <code>git pull</code> to sync<br>
+                               3. Work on projects<br>
+                               4. Run sync script before shutting down</p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h3 class="info-card-title">
+                                <i class="fas fa-laptop"></i>
+                                Working on Laptop
+                            </h3>
+                            <p>1. Open terminal in code-portfolio folder<br>
+                               2. Run <code>git pull</code> to sync<br>
+                               3. Work on projects<br>
+                               4. Run sync script when done</p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h3 class="info-card-title">
+                                <i class="fas fa-project-diagram"></i>
+                                Project Organization
+                            </h3>
+                            <p>• University: By semester → course → language<br>
+                               • Roadmap.sh: By project type → technology<br>
+                               • Learning: By language → topic<br>
+                               • PHP: Special handling with symlinks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Setting Up a New Project</h4>
+                                <p>When starting a new project, follow this structure:</p>
+                                <div class="folder-structure">
+                                    <div class="folder-item">category/ (uni, roadmap-sh, learning)
+                                        <div class="folder-item">project-name/
+                                            <div class="file-item">README.md</div>
+                                            <div class="file-item">src/ or code/</div>
+                                            <div class="file-item">docs/ (optional)</div>
+                                            <div class="file-item">tests/ (optional)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p>Always include a README.md with project description, setup instructions, and notes.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Handling Large Files</h4>
+                                <p>For large files (datasets, videos, etc.), use Git LFS or store them outside the repo:</p>
+                                <div class="code-block"># Install Git LFS
+git lfs install
+
+# Track specific file types
+git lfs track "*.psd"
+git lfs track "*.zip"
+git lfs track "*.mp4"
+
+# Or store large files in a separate cloud storage
+# and keep only references in your repo</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Start Guide -->
+        <div class="main-panel">
+            <h2 class="section-title">
+                <i class="fas fa-rocket"></i>
+                Quick Start Guide
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 20px; border-radius: var(--border-radius);">
+                    <h3 style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                        <span style="background: white; color: #3b82f6; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">1</span>
+                        Create Main Folder
+                    </h3>
+                    <p>Create <code>code-portfolio</code> folder on your PC with the structure shown above.</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #10b981, #047857); color: white; padding: 20px; border-radius: var(--border-radius);">
+                    <h3 style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                        <span style="background: white; color: #10b981; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">2</span>
+                        Setup GitHub Repo
+                    </h3>
+                    <p>Initialize Git, create GitHub repository, and push your code.</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 20px; border-radius: var(--border-radius);">
+                    <h3 style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                        <span style="background: white; color: #f59e0b; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">3</span>
+                        Setup Laptop
+                    </h3>
+                    <p>Clone the repository on your laptop and set up PHP symlinks if needed.</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; padding: 20px; border-radius: var(--border-radius);">
+                    <h3 style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                        <span style="background: white; color: #8b5cf6; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">4</span>
+                        Create Sync Scripts
+                    </h3>
+                    <p>Create sync-all scripts for both devices to automate the process.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Code Portfolio System | Designed for multi-device synchronization | Works with Java, JavaScript, Python, PHP, C++, HTML, CSS</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">Remember: Always pull before working and push when done. Keep your .gitignore updated.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Category switching functionality
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.category-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Hide all panel contents
+                document.querySelectorAll('.panel-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+                
+                // Show selected panel content
+                const category = this.getAttribute('data-category');
+                document.getElementById(`${category}-content`).style.display = 'block';
+            });
+        });
+        
+        // Initialize code blocks with copy functionality
+        document.querySelectorAll('.code-block').forEach(block => {
+            const copyButton = document.createElement('button');
+            copyButton.innerHTML = '<i class="far fa-copy"></i>';
+            copyButton.style.position = 'absolute';
+            copyButton.style.right = '10px';
+            copyButton.style.top = '10px';
+            copyButton.style.background = 'rgba(255,255,255,0.2)';
+            copyButton.style.color = 'white';
+            copyButton.style.border = 'none';
+            copyButton.style.padding = '5px 10px';
+            copyButton.style.borderRadius = '4px';
+            copyButton.style.cursor = 'pointer';
+            
+            copyButton.addEventListener('click', function() {
+                const code = block.innerText;
+                navigator.clipboard.writeText(code).then(() => {
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        this.innerHTML = originalHTML;
+                    }, 2000);
+                });
+            });
+            
+            block.style.position = 'relative';
+            block.appendChild(copyButton);
+        });
+        
+        // Add keyboard shortcut hints
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + 1-5 to switch categories
+            if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '5') {
+                const index = parseInt(e.key) - 1;
+                const categories = document.querySelectorAll('.category-item');
+                if (categories[index]) {
+                    categories[index].click();
+                }
+            }
+        });
+        
+        // Show keyboard shortcut hint
+        setTimeout(() => {
+            const hint = document.createElement('div');
+            hint.innerHTML = '<strong>Tip:</strong> Use Ctrl+1 to Ctrl+5 to switch between categories';
+            hint.style.background = '#e0f2fe';
+            hint.style.padding = '10px';
+            hint.style.borderRadius = 'var(--border-radius)';
+            hint.style.marginTop = '20px';
+            hint.style.textAlign = 'center';
+            hint.style.borderLeft = '4px solid var(--primary-color)';
+            document.querySelector('.main-panel').appendChild(hint);
+        }, 3000);
+    </script>
+</body>
+</html>
