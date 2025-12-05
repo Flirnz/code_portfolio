@@ -1,0 +1,6 @@
+﻿  main.cpp
+D:\DE\FH-Erfurt\Coding\C++\CodeBeauty\Project1\8.1 OPerator Overloading\main.cpp(28,24): error C2563: mismatch in formal parameter list
+D:\DE\FH-Erfurt\Coding\C++\CodeBeauty\Project1\8.1 OPerator Overloading\main.cpp(28,24): error C2568: '<<': unable to resolve function overload
+      D:\DE\FH-Erfurt\Coding\C++\CodeBeauty\Project1\8.1 OPerator Overloading\main.cpp(28,24):
+      could be 'std::basic_ostream<_Elem,_Traits> &std::endl(std::basic_ostream<_Elem,_Traits> &)'
+  
