@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# 1. If the user asks for a real file (like image.png), serve it directly.
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# 2. If the user asks for a real folder, serve it directly.
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 3. For EVERYTHING else (like /register/save), send it to index.php
+# The [QSA] flag keeps query strings (like ?error=1) alive.
+RewriteRule ^ index.php [QSA,L]
