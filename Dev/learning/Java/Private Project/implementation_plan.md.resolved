@@ -1,0 +1,36 @@
+# Implementation Plan - Sistem Perpustakaan
+
+Kita bakal bikin aplikasi Java sederhana berbasis Console (Terminal) buat ngatur perpustakaan.
+
+## Structure
+Folder: `src/` inside `LibraryProject`
+
+### 1. Models (Data)
+Ini kayak "formulir" atau cetakan buat data kita.
+- `model/Genre.java` (Enum): Daftar genre buku (NOVEL, SCI_FI, dll).
+- `model/BookCondition.java` (Enum): Kondisi buku (GOOD, DAMAGED, LOST).
+- `model/Address.java`: Nyimpen alamat (Jalan, Kota, Kode Pos).
+- `model/Book.java`: Data buku (Judul, Penulis, dll). Punya fitur `Comparable` biar bisa diurutin berdasarkan Judul.
+- `model/Person.java`: Data orang (Nama, Alamat, dll). Punya list buku yg dipinjam & tagihan denda. `Comparable` by Nama.
+
+### 2. Service (Logika)
+Ini tukang kerjanya.
+- `service/LibraryService.java`:
+  - Nyimpen daftar semua Buku (`List<Book>`)
+  - Nyimpen daftar semua Orang (`List<Person>`)
+  - **CRUD**: Method buat `addBook`, `removeBook`, `registerPerson`, dll.
+  - **Business Logic**:
+    - `borrowBook(Person, Book)`: Cek status, masukin ke list pinjaman.
+    - `returnBook(Person, Book, Condition)`: Cek tanggal, hitung denda kalau telat/rusak.
+  - **Filters**: Method buat cari buku/orang berdasarkan kriteria.
+
+### 3. Application (Main)
+- `Main.java`: Pintu masuk aplikasi. Kita bakal bikin menu sederhana di sini buat ngetes fiturnya (misal: "Ketik 1 buat Tambah Buku").
+
+## Verification Plan
+Nanti kita tes manual lewat `Main.java` dengan skenario:
+1. Tambah buku baru & Member baru.
+2. Orang pinjam buku.
+3. Coba balikin telat -> Cek denda muncul gak?
+4. Coba balikin rusak -> Cek denda nambah gak?
+5. Coba cari buku pake filter.

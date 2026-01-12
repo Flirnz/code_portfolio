@@ -1,0 +1,26 @@
+# Project: Sistem Perpustakaan (Library System)
+
+- [ ] **Phase 1: Persiapan Project**
+  - [ ] Setup folder dan struktur project Java <!-- id: 1 -->
+  - [ ] Cek instalasi Java <!-- id: 2 -->
+- [ ] **Phase 2: Bikin Model Data (Kerangka)**
+  - [x] Bikin Enum [Genre](file:///d:/code_portfolio/Dev/learning/Java/Private%20Project/src/model/Book.java#76-84) dan `BookCondition` (Kategori & Kondisi) <!-- id: 3 -->
+  - [x] Bikin Class [Address](file:///d:/code_portfolio/Dev/learning/Java/Private%20Project/src/model/Address.java#9-103) (Alamat) <!-- id: 4 -->
+  - [ ] Bikin Class [Book](file:///d:/code_portfolio/Dev/learning/Java/Private%20Project/src/model/Book.java#10-124) (Buku) inklusif `Comparable` <!-- id: 5 -->
+  - [ ] Bikin Class [Person](file:///d:/code_portfolio/Dev/learning/Java/Private%20Project/src/model/Person.java#10-90) (Orang/Member) inklusif `Comparable` <!-- id: 6 -->
+- [ ] **Phase 3: Bikin Logika Bisnis (Otaknya)**
+  - [x] Implementasi CRUD Buku (Tambah, Edit, Hapus) <!-- id: 7 -->
+  - [x] Implementasi CRUD Person (Tambah, Edit, Hapus) <!-- id: 8 -->
+  - [x] Logika Peminjaman (Borrowing) <!-- id: 9 -->
+  - [x] Logika Pengembalian & Denda (Returning & Fees) <!-- id: 10 -->
+- [ ] **Phase 4: Fitur Filter & Laporan**
+  - [x] Filter Buku (Genre, Author, Title) <!-- id: 11 -->
+  - [x] Filter Person (Borrowed, Fees, Count) <!-- id: 12 -->
+  - [x] String Representation (Tampilan teks) <!-- id: 13 -->
+- [x] **Phase 5: Main App & Testing**
+  - [x] Bikin Main class buat jalanin aplikasi <!-- id: 14 -->
+  - [x] Test semua fitur jalan sesuai cerita <!-- id: 15 -->
+- [ ] **Phase 6: Improvements (Professional Upgrade)**
+  - [ ] **Input Validation**: Handle crash kalo input salah tipe (Try-Catch) <!-- id: 16 -->
+  - [ ] **Unique IDs**: Generate Member ID & Book ID otomatis (Biar orang kembar gak ketuker) <!-- id: 17 -->
+  - [ ] **Data Persistence**: Simpan data ke File (biar gak ilang pas diclose) <!-- id: 18 -->

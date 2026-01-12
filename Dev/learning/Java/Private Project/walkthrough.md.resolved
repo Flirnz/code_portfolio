@@ -1,0 +1,59 @@
+# Project Walkthrough: Library Management System
+
+## 1. Architecture Overview (Bedah Flow)
+
+Aplikasi ini menggunakan pola **MVC Sederhana** (Model-View-Controller), tapi karena berbasis Console, View & Controller-nya gabung di [Main.java](file:///d:/code_portfolio/Dev/learning/Java/Private%20Project/src/Main.java).
+
+### A. Model (The Data) `src/model`
+Ini adalah "Bahan Baku" kita. Cuma nyimpen data, gak mikir berat.
+- **Book**: Judul, Penulis, Genre, Kondisi.
+- **Person**: Nama, Alamat, List Buku Pinjaman, Tagihan Denda.
+- **Genre & BookCondition**: Enum buat pilihan tetap (biar gak typo).
+
+### B. Service (The Brain) `src/service/LibraryService.java`
+Ini "Mesin Utama" yang mengelola data.
+- **State**: Punya `List<Book>` (Rak Perpus) dan `List<Person>` (Member Database).
+- **Actions**: `addBook`, `registerPerson`, `borrowBooks`, `returnBook`.
+- **Logic**: Ngitung denda, cek ketersediaan buku, muter-muter data pake Stream.
+
+### C. Main (The Interface) `src/Main.java`
+Ini "Resepsionis" yang ngobrol sama User.
+- **Infinite Loop**: `while(isRunning)` biar aplikasi gak mati-mati.
+- **Scanner**: Nangkep input keyboard.
+- **Menu Switch**: Mengarahkan input user ke method Service yang sesuai.
+
+---
+
+## 2. Improvements (Next Level)
+
+Apa yang bisa ditingkatin? Banyak!
+
+1.  **Error Handling (Try-Catch)**:
+    -   Sekarang kalo ditanya "Weeks Overdue" (Angka) terus user jawab "Dua" (Huruf), aplikasi langsung CRASH.
+    -   *Solusi*: Bungkus `Integer.parseInt` pake `try-catch`.
+
+2.  **Unique IDs**:
+    -   Sekarang kita nyari orang pake "Nama". Kalau ada 2 orang namanya "Budi", sistem bingung (ambil yang pertama ketemu).
+    -   *Solusi*: Tambahin `id` (misal: `M001`, `B001`) di Book & Person.
+
+3.  **Data Persistence (Database)**:
+    -   Sekarang kalo aplikasi ditutup, semua data HILANG.
+    -   *Solusi*: Simpan data ke File Text (.txt), CSV, JSON, atau Database SQL.
+
+---
+
+## 3. Session Portability
+
+Untuk lanjut di project lain dengan "Ingatan" yang sama:
+- **Opsi A (Satu Workspace)**: Buka folder project baru kamu di Workspace VS Code yang sama dengan project ini. Agent biasanya bisa baca file di satu workspace.
+- **Opsi B (Contek Prompt)**: Copy rangkuman "Apa yang sudah dipelajari" di bawah ini dan paste ke chat baru.
+
+### Summary Prompt (Buat Chat Baru)
+Simpan teks ini buat "Otak Cadangan" kalo ganti sesi:
+
+> "Gw udah bikin sistem perpustakaan sederhana pake Java (Console App). Struktur projectnya pake Model-Service-Main.
+> Model: Book, Person, Address, Genre (Enum).
+> Service: LibraryService (CRUD, Borrow, Return with Fees Logic).
+> Main: Interactive Menu pake Scanner.
+> Gw udah paham OOP dasar, Collections (List), Stream API basic, dan Switch-Case menu.
+> Sekarang gw mau bikin project baru yang mirip, yaitu: [NAMA PROJECT BARU LU]..."
